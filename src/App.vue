@@ -8,7 +8,7 @@ import {GeneralState, User} from '@/store'
 
 const store: GeneralState = useStore<GeneralState>()
 
-const selectedEmployee: Ref<User> = computed(() => {
+const selectedEmployee: Ref<User | null> = computed(() => {
   return store.state.selectedEmployee
 })
 
