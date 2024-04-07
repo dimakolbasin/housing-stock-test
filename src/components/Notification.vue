@@ -1,14 +1,16 @@
 <script setup lang="ts">
-
-import {onMounted} from 'vue'
+import {watch} from 'vue'
 import {useStore} from 'vuex'
-const store = useStore()
+import {GeneralState} from '@/store'
+const store: GeneralState = useStore<GeneralState>()
 
-defineProps<{
+const {message} = defineProps<{
   message: string
 }>()
 
-onMounted(() => {
+watch(() => message, (value) => {
+  if (!value) return
+
   setTimeout(() => {
     store.commit('setErrorMessage', '')
   }, 3000)
@@ -20,7 +22,7 @@ onMounted(() => {
   <transition name="fade" mode="out-in" appear>
     <div
         v-if="message"
-        class="fixed max-w-[400px] p-3 bg-red text-white text-center left-1/2 -translate-x-1/2 top-[50px] rounded-lg"
+        class="fixed z-1 max-w-[400px] p-3 bg-red text-white text-center left-1/2 -translate-x-1/2 top-[50px] rounded-lg"
     >
       {{message}}
     </div>
@@ -30,7 +32,7 @@ onMounted(() => {
 <style lang="scss" scoped>
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 1.5s ease;
+  transition: opacity 0.5s ease;
 }
 
 .fade-enter-from,

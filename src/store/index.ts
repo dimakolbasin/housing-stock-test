@@ -1,4 +1,4 @@
-import {Commit, createStore} from 'vuex'
+import {Commit, createStore, Store} from 'vuex'
 import axios from 'axios'
 
 const URL_FOR_SEARCH = 'https://jsonplaceholder.typicode.com/users'
@@ -29,7 +29,7 @@ interface Company {
   bs: string;
 }
 
-interface User {
+export interface User {
   id: number;
   name: string;
   username: string;
@@ -40,7 +40,7 @@ interface User {
   company: Company;
 }
 
-export const store = createStore({
+export const store: Store<GeneralState> = createStore({
   state (): GeneralState {
     return {
       isLoading: false,
@@ -74,16 +74,16 @@ export const store = createStore({
     }
   },
   mutations: {
-    setListEmployees (state: GeneralState, newList: User[]) {
+    setListEmployees (state: GeneralState, newList: User[]): void {
       state.listEmployees = newList
     },
-    setLoading (state: GeneralState, isLoading: boolean) {
+    setLoading (state: GeneralState, isLoading: boolean): void {
       state.isLoading = isLoading
     },
-    setUser (state: GeneralState, selectedEmployee: User) {
+    setUser (state: GeneralState, selectedEmployee: User): void {
       state.selectedEmployee = selectedEmployee
     },
-    setErrorMessage (state: GeneralState, errorText: string) {
+    setErrorMessage (state: GeneralState, errorText: string): void {
       state.errorNotification = errorText
     }
   }

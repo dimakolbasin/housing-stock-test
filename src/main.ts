@@ -1,7 +1,6 @@
 import { createApp } from 'vue'
 import './style.css'
 import App from './App.vue'
-import 'es6-promise/auto';
 import {store} from "./store"
 
 

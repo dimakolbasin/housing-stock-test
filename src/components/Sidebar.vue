@@ -1,18 +1,20 @@
 <script setup lang="ts">
 import {useStore} from 'vuex'
-import {computed} from 'vue'
+import {computed, Ref, ref} from 'vue'
 import EmployeeSmallCard from '@/components/EmployeeSmallCard.vue'
+import {GeneralState, User} from '@/store'
 
 const numericListingRegex = /^(\d+,\s*)+(\d+)$/
 const numericRegex = /^\d+$/
 const alphabetListingRegex = /^([a-zA-Z\s]+,\s)+[a-zA-Z\s]+$/
 const alphabetRegex = /^[a-zA-Z\s]+$/
 
-const searchValue = defineModel<string>()
-const store = useStore()
+const searchValue: Ref<string> = defineModel<string>()
+const isFocus: Ref<boolean> = ref<boolean>(false)
+const store: GeneralState = useStore<GeneralState>()
 
 
-const findProcess = () => {
+const findProcess = (): void => {
   switch (true) {
     case numericRegex.test(searchValue.value) || numericListingRegex.test(searchValue.value):
       findByIdListing()
@@ -21,26 +23,30 @@ const findProcess = () => {
       findByNameListing()
       break
     default:
-      store.commit('setErrorMessage', 'Введены некорректные данные поиска(Скорее всего Id + Имя в одном запросе)');
+      store.commit('setErrorMessage', 'Введены некорректные данные поиска(Скорее всего Id + Имя в одном запросе)')
       break
   }
 }
 
-const listEmployees = computed(() => {
+const listEmployees: Ref<User[]> = computed(() => {
   return store.state.listEmployees
 })
 
-const processSearchData = (name: string) => {
+const processSearchData = (name: string): string => {
   const arr = searchValue.value.split(',')
   const queryParams = arr.map(item => `${name}=${item.trim()}`).join('&')
   return '?' + queryParams
 }
 
-const findByIdListing = async () => {
+const changeStateFocus = (value: boolean): void => {
+  isFocus.value = value
+}
+
+const findByIdListing = async (): Promise<void> => {
   store.dispatch('getUserData', {searchData: processSearchData('id')})
 }
 
-const findByNameListing = async () => {
+const findByNameListing = async (): Promise<void> => {
   store.dispatch('getUserData', {searchData: processSearchData('name')})
 }
 
@@ -56,8 +62,9 @@ const findByNameListing = async () => {
           class="border border-metal w-full text-[14px] my-6 py-3 pl-4 rounded-lg"
           type="text"
           placeholder="Введите Id или имя"
-          autofocus
           @keyup.enter="findProcess"
+          @focusin="changeStateFocus(true)"
+          @focusout="changeStateFocus(false)"
       >
 
       <button
@@ -70,21 +77,19 @@ const findByNameListing = async () => {
 
     <div class="font-montserrat-bold mb-2">Результаты</div>
     <div class="max-h-[400px] overflow-auto text-[14px]">
-      <div v-if="!searchValue">Начните поиск</div>
-      <template v-else>
-        <template v-if="listEmployees.length">
-          <transition-group name="list" tag="div" appear>
-            <employee-small-card
-                v-for="user in listEmployees"
-                :key="user.name"
-                :name="user.name"
-                :email="user.email"
-                :id="user.id"
-            />
-          </transition-group>
-        </template>
-        <div v-else>Ничего не найдено</div>
+      <div v-if="!isFocus && !listEmployees.length">Начните поиск</div>
+      <template v-if="listEmployees.length">
+        <transition-group name="list" tag="div" appear>
+          <employee-small-card
+              v-for="user in listEmployees"
+              :key="user.name"
+              :name="user.name"
+              :email="user.email"
+              :id="user.id"
+          />
+        </transition-group>
       </template>
+      <div v-else-if="isFocus">Пока ничего не найдено</div>
     </div>
   </aside>
 </template>
@@ -92,7 +97,7 @@ const findByNameListing = async () => {
 <style lang="scss" scoped>
 .list-enter-active,
 .list-leave-active {
-  transition: all 1.5s ease;
+  transition: all 0.5s ease;
 }
 
 .list-enter-from,
@@ -102,6 +107,6 @@ const findByNameListing = async () => {
 }
 
 .list-move {
-  transition: transform 1.5s ease;
+  transition: transform 0.5s ease;
 }
 </style>

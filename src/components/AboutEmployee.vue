@@ -1,8 +1,7 @@
 <script setup lang="ts">
-
 defineProps<{
   name: string
-  email: string,
+  email: string
   phone: string
 }>()
 
@@ -10,7 +9,7 @@ defineProps<{
 
 <template>
   <div class="flex h-[286px] ml-5 mt-6">
-    <img src="../assets/images/img_245x286.png" alt="" class="h-full mr-14 main-photo">
+    <img src="../assets/images/img_245x286.png" class="h-full mr-14 main-photo">
     <div>
       <div class="font-montserrat-bold mb-3">{{ name }}</div>
       <div class="mb-3">
