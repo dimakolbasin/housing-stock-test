@@ -1,7 +1,7 @@
 import {Commit, createStore, Store} from 'vuex'
 import axios from 'axios'
 
-const URL_FOR_SEARCH = 'https://jsonplaceholder.typicode.com/users'
+const URL_FOR_SEARCH: string = 'https://jsonplaceholder.typicode.com/users'
 
 export interface GeneralState {
   isLoading: boolean,
@@ -66,6 +66,7 @@ export const store: Store<GeneralState> = createStore({
         commit('setErrorMessage', 'Произошла ошибка при загрузке данных')
       } finally {
         commit('setLoading', false)
+        commit('setUser', null)
       }
     },
     findAndSelectUser ({state, commit}: {state: GeneralState, commit: Commit}, {id}: {id: number}): void {
