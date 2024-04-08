@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import {useStore} from 'vuex'
-import {computed, Ref, ref} from 'vue'
+import {computed, ref} from 'vue'
 import EmployeeSmallCard from '@/components/EmployeeSmallCard.vue'
-import {GeneralState, User} from '@/store'
+import {GeneralState} from '@/store'
 
 const numericListingRegex = /^(\d+,\s*)+(\d+)$/
 const numericRegex = /^\d+$/
 const alphabetListingRegex = /^([a-zA-Z\s]+,\s)+[a-zA-Z\s]+$/
 const alphabetRegex = /^[a-zA-Z\s]+$/
 
-const searchValue: Ref<string> = defineModel<string>()
-const isFocus: Ref<boolean> = ref<boolean>(false)
+const searchValue = defineModel<string>()
+const isFocus = ref(false)
 const store: GeneralState = useStore<GeneralState>()
 
 
@@ -28,7 +28,7 @@ const findProcess = (): void => {
   }
 }
 
-const listEmployees: Ref<User[]> = computed(() => {
+const listEmployees = computed(() => {
   return store.state.listEmployees
 })
 

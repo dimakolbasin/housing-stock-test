@@ -75,16 +75,16 @@ export const store: Store<GeneralState> = createStore({
     }
   },
   mutations: {
-    setListEmployees (state: GeneralState, newList: User[]): void {
+    setListEmployees (state: GeneralState, newList: User[]) {
       state.listEmployees = newList
     },
-    setLoading (state: GeneralState, isLoading: boolean): void {
+    setLoading (state: GeneralState, isLoading: boolean) {
       state.isLoading = isLoading
     },
-    setUser (state: GeneralState, selectedEmployee: User): void {
+    setUser (state: GeneralState, selectedEmployee: User) {
       state.selectedEmployee = selectedEmployee
     },
-    setErrorMessage (state: GeneralState, errorText: string): void {
+    setErrorMessage (state: GeneralState, errorText: string) {
       state.errorNotification = errorText
     }
   }

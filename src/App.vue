@@ -1,18 +1,18 @@
 <script setup lang="ts">
 import Sidebar from '@/components/Sidebar.vue'
 import AboutEmployee from '@/components/AboutEmployee.vue'
-import {computed, Ref} from 'vue'
+import {computed} from 'vue'
 import {useStore} from 'vuex'
 import Notification from '@/components/Notification.vue'
-import {GeneralState, User} from '@/store'
+import {GeneralState} from '@/store'
 
 const store: GeneralState = useStore<GeneralState>()
 
-const selectedEmployee: Ref<User | null> = computed(() => {
+const selectedEmployee = computed(() => {
   return store.state.selectedEmployee
 })
 
-const errorNotification: Ref<String> = computed(() => {
+const errorNotification = computed(() => {
   return store.state.errorNotification
 })
 
