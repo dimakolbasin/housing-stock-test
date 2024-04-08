@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import {useStore} from 'vuex'
 import {GeneralState} from '@/store'
+import {computed} from "vue";
 
 const store: GeneralState = useStore<GeneralState>()
 const {id} = defineProps<{
@@ -9,7 +10,16 @@ const {id} = defineProps<{
   id: number
 }>()
 
+const selectedEmployee = computed(() => {
+  return store.state.selectedEmployee
+})
+
 const selectUser = (): void => {
+  if (selectedEmployee.value) {
+    store.commit('setUser', null)
+    return
+  }
+
   store.dispatch('findAndSelectUser', {id})
 }
 

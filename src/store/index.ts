@@ -81,7 +81,7 @@ export const store: Store<GeneralState> = createStore({
     setLoading (state: GeneralState, isLoading: boolean) {
       state.isLoading = isLoading
     },
-    setUser (state: GeneralState, selectedEmployee: User) {
+    setUser (state: GeneralState, selectedEmployee: User | null) {
       state.selectedEmployee = selectedEmployee
     },
     setErrorMessage (state: GeneralState, errorText: string) {
