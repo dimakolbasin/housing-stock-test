@@ -15,6 +15,10 @@ const store: GeneralState = useStore<GeneralState>()
 
 
 const findProcess = (): void => {
+  if (searchValue.value?.endsWith(',')) {
+    searchValue.value = searchValue.value.slice(0, -1)
+  }
+
   switch (true) {
     case numericRegex.test(searchValue.value) || numericListingRegex.test(searchValue.value):
       findByIdListing()
@@ -58,7 +62,7 @@ const findByNameListing = async (): Promise<void> => {
 
     <div class="flex items-center">
       <input
-          v-model="searchValue"
+          v-model.trim="searchValue"
           class="border border-metal w-full text-[14px] my-6 py-3 pl-4 rounded-lg"
           type="text"
           placeholder="Введите Id или имя"
