@@ -15,7 +15,7 @@ const selectedEmployee = computed(() => {
 })
 
 const selectUser = (): void => {
-  if (selectedEmployee.value) {
+  if (selectedEmployee.value?.id === id) {
     store.commit('setUser', null)
     return
   }
