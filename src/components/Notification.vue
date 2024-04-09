@@ -9,7 +9,7 @@ const message = computed(() => {
   return store.state.errorNotification
 })
 
-watch(() => message, (value) => {
+watch(message, (value) => {
   if (!value) return
 
   setTimeout(() => {
