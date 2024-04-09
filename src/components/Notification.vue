@@ -1,12 +1,14 @@
 <script setup lang="ts">
-import {watch} from 'vue'
+import {computed, watch} from 'vue'
 import {useStore} from 'vuex'
 import {GeneralState} from '@/store'
+
 const store: GeneralState = useStore<GeneralState>()
 
-const {message} = defineProps<{
-  message: string
-}>()
+
+const message = computed(() => {
+  return store.state.errorNotification
+})
 
 watch(() => message, (value) => {
   if (!value) return
