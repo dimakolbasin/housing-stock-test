@@ -4,10 +4,10 @@ import {computed, ref} from 'vue'
 import EmployeeSmallCard from '@/components/EmployeeSmallCard.vue'
 import {GeneralState} from '@/store'
 
-const numericListingRegex = /^(\d+,\s*)+(\d+)$/
-const numericRegex = /^\d+$/
-const alphabetListingRegex = /^([a-zA-Z\s]+,\s)+[a-zA-Z\s]+$/
-const alphabetRegex = /^[a-zA-Z\s]+$/
+const NUMERIC_LISTING_REGEX = /^(\d+,\s*)+(\d+)$/
+const NUMERIC_REGEX = /^\d+$/
+const ALPHABET_LISTING_REGEX = /^([a-zA-Z\s]+,\s)+[a-zA-Z\s]+$/
+const ALPHABET_REGEX = /^[a-zA-Z\s]+$/
 
 const searchValue = defineModel<string>()
 const isFocus = ref(false)
@@ -15,15 +15,20 @@ const store: GeneralState = useStore<GeneralState>()
 
 
 const findProcess = (): void => {
+  if (!searchValue.value) {
+    store.commit('setErrorMessage', 'Введите данные для поиска')
+    return
+  }
+
   if (searchValue.value?.endsWith(',')) {
     searchValue.value = searchValue.value.slice(0, -1)
   }
 
   switch (true) {
-    case numericRegex.test(searchValue.value) || numericListingRegex.test(searchValue.value):
+    case NUMERIC_REGEX.test(searchValue.value) || NUMERIC_LISTING_REGEX.test(searchValue.value):
       findByIdListing()
       break
-    case alphabetRegex.test(searchValue.value) || alphabetListingRegex.test(searchValue.value):
+    case ALPHABET_REGEX.test(searchValue.value) || ALPHABET_LISTING_REGEX.test(searchValue.value):
       findByNameListing()
       break
     default:
@@ -37,8 +42,10 @@ const listEmployees = computed(() => {
 })
 
 const processSearchData = (name: string): string => {
-  const arr = searchValue.value.split(',')
-  const queryParams = arr.map(item => `${name}=${item.trim()}`).join('&')
+  const searchValueList = searchValue.value?.split(',') || []
+  if (!searchValueList.length) return ''
+
+  const queryParams = searchValueList.map(item => `${name}=${item.trim()}`).join('&')
   return '?' + queryParams
 }
 
