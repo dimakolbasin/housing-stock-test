@@ -1,13 +1,11 @@
 <script setup lang="ts">
 import {useStore} from 'vuex'
-import {GeneralState} from '@/store'
-import {computed} from "vue";
+import {GeneralState, User} from '@/store'
+import {computed} from 'vue'
 
 const store: GeneralState = useStore<GeneralState>()
-const {id} = defineProps<{
-  name: string
-  email: string
-  id: number
+const {user} = defineProps<{
+  user: User
 }>()
 
 const selectedEmployee = computed(() => {
@@ -15,12 +13,12 @@ const selectedEmployee = computed(() => {
 })
 
 const selectUser = (): void => {
-  if (selectedEmployee.value?.id === id) {
+  if (selectedEmployee.value?.id === user.id) {
     store.commit('setUser', null)
     return
   }
 
-  store.dispatch('findAndSelectUser', {id})
+  store.commit('setUser', user)
 }
 
 </script>
@@ -32,8 +30,8 @@ const selectUser = (): void => {
   >
     <img src="../assets/images/img_70x70.png" class="h-full">
     <div class="border-l border-metal transition-colors duration-500 hover:bg-small-gray leading-4 pl-4 pt-4 w-full">
-      <div class="font-montserrat-bold">{{name}}</div>
-      <div class="max-w-[150px] overflow-hidden text-ellipsis">{{email}}</div>
+      <div class="font-montserrat-bold">{{user.name}}</div>
+      <div class="max-w-[150px] overflow-hidden text-ellipsis">{{user.email}}</div>
     </div>
   </div>
 </template>

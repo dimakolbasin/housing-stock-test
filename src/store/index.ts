@@ -68,10 +68,6 @@ export const store: Store<GeneralState> = createStore({
         commit('setLoading', false)
         commit('setUser', null)
       }
-    },
-    findAndSelectUser ({state, commit}: {state: GeneralState, commit: Commit}, {id}: {id: number}): void {
-      const user = state.listEmployees.find(user => user.id === id)
-      commit('setUser', user || null)
     }
   },
   mutations: {

@@ -94,9 +94,7 @@ const findByNameListing = async (): Promise<void> => {
           <employee-small-card
               v-for="user in listEmployees"
               :key="user.id"
-              :name="user.name"
-              :email="user.email"
-              :id="user.id"
+              :user="user"
           />
         </transition-group>
       </template>
