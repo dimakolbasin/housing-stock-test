@@ -5,7 +5,7 @@ import MainHeader from '@/components/MainHeader.vue'
 </script>
 
 <template>
-  <div class="mx-auto w-[1266px]">
+  <div class="container">
     <main-header />
     <main-block />
     <notification />

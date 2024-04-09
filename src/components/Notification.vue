@@ -5,7 +5,6 @@ import {GeneralState} from '@/store'
 
 const store: GeneralState = useStore<GeneralState>()
 
-
 const message = computed(() => {
   return store.state.errorNotification
 })

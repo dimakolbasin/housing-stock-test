@@ -1,10 +1,18 @@
-/** @type {import('tailwindcss').Config} */
-module.exports = {
+import type { Config } from 'tailwindcss'
+import defaultTheme from 'tailwindcss/defaultTheme'
+
+export default <Partial<Config>>{
   content: [
     "./index.html",
     "./src/**/*.{js,ts,vue}",
   ],
   theme: {
+    container: {
+      center: true,
+      screens: {
+        xl: '1266px',
+      },
+    },
     extend: {
       zIndex: {
         '0': '0',
